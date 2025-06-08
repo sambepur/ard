@@ -16,7 +16,6 @@ int diff;
 int st;
 
 void setup() {
-  Serial.begin(9600);
   pinMode(DISP, INPUT);
   pinMode(RESET, INPUT);
   pinMode(BLUE_C, INPUT);
@@ -30,33 +29,27 @@ void setup() {
 
 void loop() {
     if (digitalRead(RESET)) {
-        Serial.println("RESET");
         reset();
     }
     if (digitalRead(DISP)) {
-        Serial.print("SCORE: ");
-        Serial.println(score, DEC);
+        delay(3000);
+        blink(random(RED, BLUE), score, 500);
+        delay(3000);
     }
     n = random(RED, BLUE);
-    Serial.println(n, DEC);
     diff = BLUE - n;
-    Serial.println(diff, DEC);
     digitalWrite(n, HIGH);
-    delay(3000);
-    Serial.println(BLUE_C - diff, DEC);
+    delay(1000);
     st = digitalRead(BLUE_C - diff);
-    Serial.println(st, DEC);
     delay(1000);
     if (st == HIGH) {
         score++;
-        Serial.println("INCR");
         digitalWrite(n ,LOW);
         blink(LED_BUILTIN, 3, 500);
     }
     else {
-        Serial.println("MISS");
         digitalWrite(n ,LOW);
-        blink(LED_BUILTIN, 1, 5000);
+        blink(LED_BUILTIN, 1, 3000);
     }
 }
 
